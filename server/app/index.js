@@ -2,6 +2,12 @@ import koa from "koa";
 import Router from "koa-router";
 import views from "koa-views";
 
+import staticRes from 'koa-static';
+import { dirname } from "node:path"
+import { fileURLToPath } from "node:url"
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // const db = require('../database/conn');
 import db from "../database/conn.mjs";
@@ -11,9 +17,14 @@ const router = new Router()
 // server.use(static()) // The default static folder here is the folder where the static resources are stored.
 // server.use(template()) // If there is no custom setting to store the path to the html file, it will be stored in the static folder of the project root directory by default.
 //app.use(views('views', { extension: 'ejs' }));  
-app.use(views('views', { map: {html: 'ejs' }}));
+app.use(views('release', { map: {html: 'ejs' }}));
 
-
+console.log(__dirname)
+app.use(staticRes(__dirname + '/../release', {
+  index: true,    // 默认为true  访问的文件为index.html  可以修改为别的文件名或者false
+  hidden: false,   // 是否同意传输隐藏文件
+  defer: true      // 如果为true，则在返回next()之后进行服务，从而允许后续中间件先进行响应
+}))
 // router.get("/",async ctx=>{
 //     ctx.body = "Hello World"
 // })
