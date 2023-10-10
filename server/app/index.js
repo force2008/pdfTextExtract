@@ -100,6 +100,6 @@ router.post('/upload',koaBody({
 })
 
 app.use(router.routes()).use(router.allowedMethods())
-app.listen(3008,function(){
-    console.log("server is running at http://localhost:3008")
+app.listen(process.env.PORT || 3000,function(){
+    console.log("server is running at http://localhost:"+(process.env.PORT || 3000))
 })
